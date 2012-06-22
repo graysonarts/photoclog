@@ -5,8 +5,8 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 
 photo_tag_association_table = Table('photo_tag_association', Base.metadata,
-   Column('photo_id', Integer, ForeignKey('photo.id')),
-   Column('tag_id', Integer, ForeignKey('tag.id'))
+   Column('photo_id', Integer, ForeignKey('photo.photo_id')),
+   Column('tag_id', Integer, ForeignKey('tag.tag_id'))
 )
 
 class Photo(Base):
