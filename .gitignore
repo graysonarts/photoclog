@@ -1,2 +1,6 @@
 *.pyc
 pienv/*
+*/*.egg-info/*
+*/build/*
+*/*.egg
+*/.coverage
