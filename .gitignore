@@ -2,3 +2,5 @@
 pienv/*
 */*.egg-info/*
 */build/*
+*/*.egg
+*/.coverage

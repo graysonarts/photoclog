@@ -8,5 +8,8 @@ setup(
    author = 'Russell Hay',
    author_email = 'me@russellhay.com',
    description = 'Datastore required by PhotoIndex',
-   url = 'http://russellhay.com/photoindex'
+   url = 'http://russellhay.com/photoindex',
+
+   setup_requires=['nose'],
+   tests_require=['coverage'],
 )
