@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.hybrid import hybrid_property
 
 Base = declarative_base()
 
@@ -13,14 +14,31 @@ class Photo(Base):
     __tablename__ = 'photo'
 
     photo_id = Column(Integer, primary_key=True)
-    guid = Column(String)
+    _guid = Column("guid", String)
     location = Column(String(convert_unicode=True))
-    thumbnail = Column(LargeBinary)
+    _thumbnail = Column("thumbnail", LargeBinary)
     shoot_date = Column(Date)
 
     tags = relationship('Tag', lazy='dynamic',
                         secondary=photo_tag_association_table,
                         backref='photos')
+    
+    @hybrid_property
+    def guid(self):
+        return self._guid
+    
+    @guid.setter
+    def guid(self, _):
+        self._guid = "xxx"
+        
+    @hybrid_property
+    def thumbnail(self):
+        return self._thumbnail
+    
+    @thumbnail.setter
+    def thumbnail(self, filename):
+        with open(filename, "rb") as input_:
+            self._thumbnail = input_.read()
 
 class Tag(Base):
     __tablename__ = 'tag'
