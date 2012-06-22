@@ -1,3 +1,5 @@
+import uuid
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
@@ -28,8 +30,14 @@ class Photo(Base):
         return self._guid
     
     @guid.setter
-    def guid(self, _):
-        self._guid = "xxx"
+    def guid(self, value):
+        if value is None:
+            if self.location is None:
+                value = None
+            else:
+                self._guid = str(uuid.uuid5(uuid.NAMESPACE_URL, self.location))
+        else:
+            self._guid = value
         
     @hybrid_property
     def thumbnail(self):
