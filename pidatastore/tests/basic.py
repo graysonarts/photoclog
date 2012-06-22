@@ -54,6 +54,9 @@ class testBasic(object):
         session.add(photo)
         session.commit()
     
+    def _get_photo(self, session):
+        return session.query(Photo).filter(Photo.photo_id==self.photo['photo_id']).first()
+    
     def testCreation(self):
         self.setup_engine()
         assert self.engine is not None
@@ -73,7 +76,11 @@ class testBasic(object):
     def testPhotoGuid(self):
         self.setup_engine()
         session = self.Session()
-        x = Photo(location=self.photo['location'])
+        x = Photo()
+        x.guid = None
+        assert x.guid is None
+        
+        x.location = self.photo['location']
         x.guid = None
         assert x.guid is not None
         guid1 = x.guid
@@ -81,6 +88,9 @@ class testBasic(object):
         x.guid = None
         assert x.guid is not None
         assert x.guid == guid1
+        
+        x.guid = "xxx"
+        assert x.guid == "xxx"
         
         session.rollback()
 
@@ -94,7 +104,7 @@ class testBasic(object):
         session.add(x)
         session.commit()
         
-        y = session.query(Photo).filter(Photo.photo_id==1).first()
+        y = self._get_photo(session)
         assert y.thumbnail is not None
         assert x.thumbnail == y.thumbnail
     
@@ -104,5 +114,16 @@ class testBasic(object):
         self._add_photo()
         
         session = self.Session()
+        photo = self._get_photo(session)
+        assert photo is not None
         
+        tags = session.query(Tag).all()
+        assert tags is not None
+        assert len(tags) > 0
         
+        photo.tags = tags
+        session.commit()
+        
+        session = self.Session()
+        photo = self._get_photo(session)
+        assert len(list(photo.tags)) > 0
