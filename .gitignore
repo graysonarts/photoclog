@@ -4,3 +4,4 @@ pienv/*
 */build/*
 */*.egg
 */.coverage
+piui/piui/ui/*.py

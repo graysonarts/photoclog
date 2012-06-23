@@ -5,9 +5,10 @@ python:
 before_install:
     - sudo apt-get update
     - sudo apt-get install libsqlite3-dev
-    - sudo sh install_qt.sh
+    - sudo sh build/install_qt.sh
+    - sh build/build_ui.sh
 install: pip install -r requirements.txt --use-mirrors
-script: sh tests.sh
+script: sh build/tests.sh
 branches:
     only:
         - master
