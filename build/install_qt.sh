@@ -2,7 +2,6 @@
 
 sudo apt-get install \
 pyqt4-dev-tools \
-python-sip4 \
 python-sip \
 python-sip-dev \
 python-qt4 \
